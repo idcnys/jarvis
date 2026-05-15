@@ -52,7 +52,7 @@ Before setting up, ensure you have the following installed on your host machine:
 
 ## 📋 Setup
 
-* Clone this reposition locally `git clone https://github.com/idcnys/jarvis.git .`
+* Clone this repository locally using `git clone https://github.com/idcnys/jarvis.git .` command
 * a virtual env create it with `python -m venv [name]` , activate it `env\Scripts\activate` then install the requirements `pip install -r requirements.txt`
 * kokoro-82M model files download them from their github repo file names ` kokoro-v1.0.onnx` and `  voices-v1.0.bin` [download from here](https://github.com/thewh1teagle/kokoro-onnx/releases/tag/model-files-v1.0) and put them in the `voice_files/` folder
 * Add your own gemini API_KEY(S) ([get Gemini API key here](https://aistudio.google.com/app/api-keys) ) and a groq API key for fallback ([get groq API KEY here](https://console.groq.com/keys)), (You can also connect local LLM), make sure you add gemini API keys in the `user_data/APIs.txt` file one per line and groq API key in the `user_data/groq_config.txt` in this format `{ "api_key": "YOUR KEY", "model_name": "model that you prefer" }` for groq i prefer `llama-3.3-70b-versatile` it is better for tool calling.
