@@ -41,7 +41,7 @@ A powerful, local-first AI orchestration layer that unifies advanced LLM reasoni
 Before setting up, ensure you have the following installed on your host machine:
 * Python 3.10 or higher
 * Pip (Python package manager)
-* *Note for Linux users:* PyAutoGUI may require `scrot`, `python3-tk`, and `python3-dev` installed via your system package manager.
+* *Note for Linux users:* PyAutoGUI may require `scrot`, `python3-tk`, and `python3-dev` installed via your system package manager. Besides `PyAutoGUI` does not work properly in wayland [use x11 instead]
 * kokoro-82M model files download them from their github repo file names ` kokoro-v1.0.onnx` and `  voices-v1.0.bin`
 * your own gemini API_KEY(S) and a groq API key for fallback, (You can also connect local LLM)
 * a virtual env create it with `python -m venv [name]` , activate it `env\Scripts\activate` then install the requirements `pip install -r requirements.txt`
