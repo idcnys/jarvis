@@ -1,5 +1,11 @@
 # Project Overview
 
+<p align="center">
+  <a href="#-features">🚀 Features</a> • 
+  <a href="#️-tech-stack">🛠️ Tech Stack</a> • 
+  <a href="#-prerequisites--setup">📋 Prerequisites & Setup</a>
+</p>
+
 ### AI Orchestration Layer with Flask Web UI
 
 A powerful, local-first AI orchestration layer that unifies advanced LLM reasoning, real-time voice synthesis, and local system automation. Featuring a Flask-based web interface, this system uses a smart Gemini API rotation strategy with a Groq fallback, allowing it to seamlessly perform CRUD operations on files, automate OS tasks via PyAutoGUI, tell jokes, and act as a fully capable local AI assistant.
@@ -47,7 +53,7 @@ Before setting up, ensure you have the following installed on your host machine:
 * a virtual env create it with `python -m venv [name]` , activate it `env\Scripts\activate` then install the requirements `pip install -r requirements.txt`
 * if you face any kind of setup issue you can ask me in the [discussion](https://github.com/idcnys/jarvis/discussions) as well.
 
-##  After you have done everything your folder should look like this:
+##  After you have done everything your folder should look like this
 
 ```
 requirements.txt
