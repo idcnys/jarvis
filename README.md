@@ -3,7 +3,8 @@
 <p align="center">
   <a href="#-features">🚀 Features</a> • 
   <a href="#️-tech-stack">🛠️ Tech Stack</a> • 
-  <a href="#-prerequisites--setup">📋 Prerequisites & Setup</a>
+  <a href="#-prerequisites">📋 Prerequisites</a>  • 
+  <a href="#-setup">📋 Setup</a>
 </p>
 
 ### AI Orchestration Layer with Flask Web UI
