@@ -1,0 +1,28 @@
+{
+    "test": [
+        {
+            "arg": {
+                "command": "echo \"A cyclone is a large-scale air mass that rotates around a strong center of low atmospheric pressure. Cyclones are characterized by inward spiraling winds that rotate counterclockwise in the Northern Hemisphere and clockwise in the Southern Hemisphere. They are often accompanied by severe weather conditions such as heavy rain and strong winds.\" > cyclone_definition.txt"
+            },
+            "tool": "run_terminal_command"
+        }
+    ],
+    "weathy": [
+        {
+            "arg": {
+                "command": "curl wttr.in/Dhaka"
+            },
+            "tool": "run_terminal_command"
+        }
+    ],
+    "weathy skills": [
+        {
+            "tool": "run_terminal_command",
+            "arg": "echo '''\nimport requests\n\ndef get_weather(city):\n    api_key = \"YOUR_API_KEY\"  # Replace with a real API key for actual use\n    base_url = \"http://api.openweathermap.org/data/2.5/weather?\"\n    complete_url = f\"{base_url}appid={api_key}&q={city}&units=metric\"\n    response = requests.get(complete_url)\n    data = response.json()\n\n    if data[\"cod\"] != \"404\":\n        main = data[\"main\"]\n        weather = data[\"weather\"][0]\n        temperature = main[\"temp\"]\n        description = weather[\"description\"]\n        print(f\"Current weather in {city}: {description.capitalize()}, {temperature}\u00b0C\")\n    else:\n        print(f\"City {city} not found.\")\n\nif __name__ == \"__main__\":\n    get_weather(\"Dhaka\")\n''' > get_weather.py"
+        },
+        {
+            "arg": "python get_weather.py",
+            "tool": "run_terminal_command"
+        }
+    ]
+}

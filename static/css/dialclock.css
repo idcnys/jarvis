@@ -1,0 +1,72 @@
+.my-clock-wrapper {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  margin: auto;
+}
+
+.my-clock-wrapper svg {
+  transform: rotate(-90deg);
+}
+
+.my-clock-wrapper circle {
+  fill: none;
+  stroke-width: 7;
+  stroke-linecap: round;
+}
+
+.my-month-bg {
+  stroke: #333;
+}
+.my-month-progress {
+  stroke: #3dd5e3;
+  stroke-dasharray: 440;
+  stroke-dashoffset: 440;
+}
+
+.my-sec-bg {
+  stroke: #3a4f52;
+}
+.my-sec-progress {
+  stroke: #3dd5e3;
+  stroke-dasharray: 314;
+  stroke-dashoffset: 314;
+}
+
+.my-clock-time {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #3dd5e3;
+}
+.my-hhmm {
+  font-size: 1.3em;
+  font-weight: bold;
+}
+.my-date {
+  font-size: 0.8em;
+  margin-top: 2px;
+}
+
+.my-month-year {
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #3dd5e3;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.my-month {
+  font-size: 0.9em;
+}
+.my-slash {
+  font-size: 0.9em;
+}
+.my-year {
+  font-size: 1.1em;
+}

@@ -1,0 +1,22 @@
+{
+  "play-pause": {
+    "keyboard_name": "G",
+    "scan_code": 34
+  },
+  "prtsc": {
+    "keyboard_name": "left windows",
+    "scan_code": -91
+  },
+  "mute": {
+    "keyboard_name": "D",
+    "scan_code": 32
+  },
+  "calculator": {
+    "keyboard_name": "F",
+    "scan_code": 33
+  },
+  "lock": {
+    "keyboard_name": "left windows",
+    "scan_code": 91
+  }
+}

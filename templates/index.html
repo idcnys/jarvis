@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jarvis</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Exo:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/cpuextra.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/dialclock.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/uptime_spinner.css') }}"
+    />
+
+  
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/minichat.css') }}"
+    />
+  </head>
+
+  <body>
+    <div class="top-center">Jarvis</div>
+    
+    <div class="speaking-status" id="speakingStatus">
+      <span class="status-dot"></span>
+      <span class="status-text">Idle</span>
+    </div>
+
+    <div class="response">
+      <h2>Response:</h2>
+      <p id="responseField">Awaiting command...</p>
+    </div>
+
+    <div class="info-column">
+      <div class="info-row">
+        <div class="infos"></div>
+        <div class="infos2">
+          <h2>Application Info</h2>
+        </div>
+      </div>
+      <div id="miniStatusChat" class="ministatuschat">
+        <div id="statusMessages" class="statusmsg"></div>
+      </div>
+    </div>
+
+    <div class="hud">
+      <div class="ticks" id="ticks"></div>
+      <div class="main-ring"></div>
+      <div class="arc one"></div>
+      <div class="arc two"></div>
+      <div class="arc three"></div>
+      <div class="arc four"></div>
+      <div class="core"></div>
+    </div>
+    <div class="command-box">
+      <textarea
+        class="command-text"
+        placeholder="Type your command..."
+      ></textarea>
+      <button class="send-btn">Go</button>
+    </div>
+    <button class="settings-btn">
+      <a href="/settings">Settings</a>
+    </button>
+    <div class="spctl">
+      <div title="CPU Usage (Central Processing Unit)" class="cpuboxl">
+        <div class="spckl">
+          <svg width="80" height="80">
+            <circle cx="40" cy="40" r="32" class="cs501" />
+            <circle id="cpuCircle" cx="40" cy="40" r="32" class="cs50" />
+          </svg>
+          <div id="cpuCenter">CPU</div>
+          <div id="cpuBottom">0%</div>
+        </div>
+        <div class="cpu-st">CPU</div>
+      </div>
+      <div class="stlm">
+        <div id="memBox"></div>
+        <div id="swapBox"></div>
+        <div id="batBox"></div>
+      </div>
+    </div>
+    <div class="clockd">
+      <div class="my-clock-wrapper">
+        <svg class="my-clock-svg" width="160" height="160">
+          <circle class="my-month-bg" cx="80" cy="80" r="70" />
+          <circle class="my-month-progress" cx="80" cy="80" r="70" />
+          <circle class="my-sec-bg" cx="80" cy="80" r="50" />
+          <circle class="my-sec-progress" cx="80" cy="80" r="50" />
+        </svg>
+        <div class="my-clock-time">
+          <div class="my-hhmm">00:00</div>
+          <div class="my-date">Mon 1</div>
+        </div>
+        <div class="my-month-year">
+          <div class="my-month">Feb</div>
+          <div class="my-slash">/</div>
+          <div class="my-year">2026</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="spinner-container">
+      <div class="spinner-circle"></div>
+      <div class="spinner-semi" style="--start: 0deg"></div>
+      <div class="spinner-semi" style="--start: 180deg"></div>
+      <span class="spinner-text">0 mins</span>
+    </div>
+
+
+  
+    <script src="{{ url_for('static', filename='js/client.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='js/dials.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='js/dialclock.js') }}"></script>
+
+</body>
+</html>

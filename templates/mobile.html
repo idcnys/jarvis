@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mobile</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Exo:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/mobile.css') }}"
+    />
+  </head>
+
+  <body>
+    <div class="top-center">Jarvis</div>
+
+    <div class="response">
+      <h2>Response:</h2>
+      <p id="responseField">Awaiting command...</p>
+    </div>
+
+    <div class="hud">
+      <div class="ticks" id="ticks"></div>
+      <div class="main-ring"></div>
+      <div class="arc one"></div>
+      <div class="arc two"></div>
+      <div class="arc three"></div>
+      <div class="arc four"></div>
+      <div class="core"></div>
+    </div>
+
+    <div class="command-box">
+      <textarea
+        class="command-text"
+        placeholder="Type your command..."
+      ></textarea>
+      <button class="send-btn">➤</button>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/mobile.js') }}"></script>
+  </body>
+</html>

@@ -1,0 +1,17 @@
+# Environments
+env/
+
+# Media / Audio files
+voice_files/
+
+# Specific sensitive files inside user_data
+user_data/APIs.txt
+user_data/history.json
+user_data/groq_config.txt
+
+# Specific sensitive files inside current
+current/API.txt
+
+# Python cache (This single rule covers helpers/, constants/, and all other subfolders)
+**/__pycache__/
+*.pyc

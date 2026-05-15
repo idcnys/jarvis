@@ -1,0 +1,9 @@
+flask
+google-genai
+groq
+psutil
+pyautogui
+requests
+sounddevice
+kokoro-onnx
+keyboard
