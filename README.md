@@ -123,4 +123,4 @@ workspace/
 
 This README provides an overview of the folder structure for the project. Each folder and file serves a specific purpose in the application. For further details, refer to the respective files and directories.
 
-## Make sure to add your own api keys as well as keydict.
+Make sure to add your own api keys as well as keydict. run `key_test.py` to get the hidden keycodes and add them in the `user_data/keydict.txt`.
