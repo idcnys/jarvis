@@ -61,6 +61,7 @@ variables/
     workspace.txt
 voice_files/
     kokoro-v1.0.onnx
+    voices-v1.0.bin
 workspace/
 ```
 
