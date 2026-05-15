@@ -207,8 +207,7 @@ def update_groq_model():
     new_model_name = request.form.get("new_groq_model")
     try:
         groq_config_file = Path(WORKING_DIR) / GROQ_CONFIG_FILE
-        groq_config = {"api_key": "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", "model_name": new_model_name}
-        
+        groq_config = {}
         if groq_config_file.exists():
             try:
                 with open(groq_config_file, 'r') as f:
