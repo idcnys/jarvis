@@ -58,7 +58,7 @@ Before setting up, ensure you have the following installed on your host machine:
 * Add your own gemini API_KEY(S) ([get Gemini API key here](https://aistudio.google.com/app/api-keys) ) and a groq API key for fallback ([get groq API KEY here](https://console.groq.com/keys)), (You can also connect local LLM), make sure that you have added the gemini API keys in the `user_data/APIs.txt` file `one per line` and groq API key in the `user_data/groq_config.txt` file. In this format `{ "api_key": "YOUR KEY", "model_name": "model that you prefer" }` .For groq i prefer `llama-3.3-70b-versatile` it is better for tool calling.
 * Once you have done everything right and your folder structure looks like the given structure. you can run the app using `env\Scripts\python.exe server.py` or directly inside the virtual env `python server.py` then open the link in the browser. You can also access the link `192.168.0.102:5000 ( something looks like this)` from your other devices connected to your wifi as well.
 * Make sure to add your own api keys as well as keydict. run `key_test.py` to get the hidden keycodes and add them in the `user_data/keydict.txt`.
-* if you face any kind of setup issue you can ask me in the [discussion](https://github.com/idcnys/jarvis/discussions) as well.
+* if you face any kind of setup issue you can ask me in the [discussion](https://github.com/idcnys/jarvis/discussions) or you can submit [an issure here](https://github.com/idcnys/jarvis/issues) as well.
 
 ##  After you have done everything your folder should look like this
 
