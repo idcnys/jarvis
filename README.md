@@ -50,7 +50,7 @@ Before setting up, ensure you have the following installed on your host machine:
 * Pip (Python package manager)
 * *Note for Linux users:* PyAutoGUI may require `scrot`, `python3-tk`, and `python3-dev` installed via your system package manager. Besides `PyAutoGUI` does not work properly in wayland [use x11 instead]
 
-## Setup
+## 📋 Setup
 
 * Clone this reposition locally `git clone https://github.com/idcnys/jarvis.git .`
 * a virtual env create it with `python -m venv [name]` , activate it `env\Scripts\activate` then install the requirements `pip install -r requirements.txt`
