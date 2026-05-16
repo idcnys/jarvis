@@ -127,7 +127,7 @@ def dashboard():
 @app.route("/api_state")
 def api_state():
     """Returns current Gemini API rotation state."""
-    state = rotator.get_state()
+    state = gemini_session.rotator.get_state()
     return jsonify(state)
 
 @app.route('/settings', methods=['GET', 'POST'])
@@ -167,7 +167,7 @@ def settings():
         skills_data = {}
     
     # Get API rotation state
-    api_state = rotator.get_state()
+    api_state = gemini_session.rotator.get_state()
     
     return render_template('settings.html', 
         ai_model=AI_MODEL_NAME, 
