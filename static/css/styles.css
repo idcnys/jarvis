@@ -216,7 +216,11 @@ body {
   width: 500px;
   z-index: 10;
   overflow: hidden;
-  height: 200px;
+  height: 300px;
+  border:1px solid rgba(61, 213, 227, 0.4);
+  padding:10px;
+  border-radius:8px;
+  overflow-y: scroll;
 }
 #responseField {
   font-size: 13px;

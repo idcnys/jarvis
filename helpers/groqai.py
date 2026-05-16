@@ -1,31 +1,24 @@
 import json
-from groq import Groq
+import logging
 from pathlib import Path
+from groq import Groq
 
-from helpers.physical_helpers import run_terminal_command, open_app, close_app, press_key, enter_text, press_multiple_keys, music_control, play_pause_music, take_screenshot, open_calculator, toggle_mute, lock_screen, get_PC_KEYS_status, create_file, read_file, update_file, delete_file, create_directory, delete_directory, list_files
+from helpers.physical_helpers import (
+    run_terminal_command, open_app, close_app, press_key, enter_text, 
+    press_multiple_keys, music_control, play_pause_music, take_screenshot, 
+    open_calculator, toggle_mute, lock_screen, get_PC_KEYS_status, 
+    create_file, read_file, update_file, delete_file, create_directory, 
+    delete_directory, list_files
+)
 from helpers.voice import speak as nix_speak, strip_markdown
 from helpers.skill_helpers import save_skill, run_skill
 from helpers.memory_helpers import load_system_instruction
 from constants.values import GROQ_CONFIG_FILE, WORKING_DIR
 
-Jarvis_HISTORY = []
+logger = logging.getLogger(__name__)
 
-# Load Groq configuration from user_data
-config_path = Path(WORKING_DIR) / GROQ_CONFIG_FILE
-groq_config = {}
-
-if config_path.exists():
-    try:
-        with open(config_path, 'r') as f:
-            groq_config = json.load(f)
-    except Exception as e:
-        print(f"Warning: Could not load Groq config from {config_path}: {e}")
-
-API_KEY = groq_config.get("api_key")
-MODEL_NAME = groq_config.get("model_name")
-client = Groq(api_key=API_KEY)
-
-tools = [
+# Declare tools configurations globally to eliminate recreation overhead
+TOOLS_MANIFEST = [
     {
         "type": "function",
         "function": {
@@ -313,6 +306,7 @@ tools = [
     },
     {
         "type": "function",
+        "type": "function",
         "function": {
             "name": "list_files",
             "description": "Lists all files and directories in a path.",
@@ -364,7 +358,7 @@ tools = [
     }
 ]
 
-available_functions = {
+FUNCTION_ROUTER = {
     "run_terminal_command": run_terminal_command,
     "open_app": open_app,
     "close_app": close_app,
@@ -389,61 +383,177 @@ available_functions = {
     "run_skill": run_skill
 }
 
-def getGroqResponse(user_text):
-    global Jarvis_HISTORY
-    
-    try:
-        messages = [{"role": "system", "content": load_system_instruction()}]
-        messages.extend(Jarvis_HISTORY)
-        messages.append({"role": "user", "content": user_text})
-
-        response = client.chat.completions.create(
-            model=MODEL_NAME,
-            messages=messages,
-            tools=tools,
-            tool_choice="auto"
-        )
-
-        response_message = response.choices[0].message
-        tool_calls = response_message.tool_calls
-
-        if tool_calls:
-            # Must append the assistant's request to call a tool first
-            messages.append(response_message)
-
-            for tool_call in tool_calls:
-                function_name = tool_call.function.name
-                function_to_call = available_functions.get(function_name)
-                function_args = json.loads(tool_call.function.arguments)
-                function_response = function_to_call(**function_args)
-
-                messages.append({
-                    "tool_call_id": tool_call.id,
-                    "role": "tool",
-                    "name": function_name,
-                    "content": str(function_response),
-                })
-
-            # Get the final verbal confirmation
-            second_response = client.chat.completions.create(
-                model=MODEL_NAME,
-                messages=messages
-            )
-            final_text = second_response.choices[0].message.content
-        else:
-            final_text = response_message.content
-
-        nix_speak(strip_markdown(final_text))
+class PersistentGroqFallback:
+    def __init__(self):
+        self.config_path = Path(WORKING_DIR) / GROQ_CONFIG_FILE
+        self.client = None
+        self.model_name = None
+        self.system_instruction = None
+        self.history = []
         
-        Jarvis_HISTORY.append({"role": "user", "content": user_text})
-        Jarvis_HISTORY.append({"role": "assistant", "content": final_text})
+        self._load_environment_assets()
 
-        # Keep only last 2 messages for token optimization
-        if len(Jarvis_HISTORY) > 2:
-            Jarvis_HISTORY = Jarvis_HISTORY[-2:]
+    def _load_environment_assets(self):
+        """Loads underlying setup properties safely once at instantiation."""
+        groq_config = {}
+        if self.config_path.exists():
+            try:
+                with open(self.config_path, 'r') as f:
+                    groq_config = json.load(f)
+            except Exception as e:
+                logger.error(f"Could not load Groq configuration file: {e}")
 
-        return {"status": "success", "output": final_text}
+        api_key = groq_config.get("api_key")
+        self.model_name = groq_config.get("model_name")
+        
+        if api_key:
+            self.client = Groq(api_key=api_key)
+            
+        # Cache instructions to prevent redundant drive access loops
+        try:
+            self.system_instruction = load_system_instruction()
+        except Exception as io_err:
+            logger.error(f"Fallback asset recovery error: {io_err}")
+            self.system_instruction = "You are a helpful system engineering assistant."
 
-    except Exception as e:
-        nix_speak(strip_markdown("Sorry boss, my logic circuits are a bit fried."))
-        return {"status": "error", "output": str(e)}
+    def get_response(self, user_text):
+        if not self.client:
+            return {"status": "error", "output": "Groq execution client context not initialized."}
+
+        try:
+            # Added explicit instructions to Groq on how it MUST structure tools
+            groq_guardrail = (
+                "\n\nCRITICAL CONTEXT: You can talk directly to the user. "
+                "For normal conversation, greetings, questions, or updates, respond with regular text. "
+                "If you need to use a tool, you MUST use the native tool-calling system. "
+                "Do NOT write raw text tags like '<function/...>'."
+            )
+            
+            messages = [{"role": "system", "content": self.system_instruction + groq_guardrail}]
+            messages.extend(self.history[-2:])
+            messages.append({"role": "user", "content": user_text})
+
+            response = self.client.chat.completions.create(
+                model=self.model_name,
+                messages=messages,
+                tools=TOOLS_MANIFEST,
+                tool_choice="auto"
+            )
+
+            response_message = response.choices[0].message
+            tool_calls = response_message.tool_calls
+            final_text = None
+
+            # --- CASE 1: Native API Tool Calls ---
+            if tool_calls:
+                messages.append(response_message)
+
+                for tool_call in tool_calls:
+                    function_name = tool_call.function.name
+                    function_to_call = FUNCTION_ROUTER.get(function_name)
+                    
+                    if function_to_call:
+                        try:
+                            function_args = json.loads(tool_call.function.arguments)
+                        except json.JSONDecodeError:
+                            print(f"Groq hallucinated tool arguments. Catching gracefully.")
+                            final_text = tool_call.function.arguments or "Had trouble parsing that command."
+                            tool_calls = None
+                            break
+
+                        function_response = function_to_call(**function_args)
+
+                        messages.append({
+                            "tool_call_id": tool_call.id,
+                            "role": "tool",
+                            "name": function_name,
+                            "content": str(function_response),
+                        })
+
+                if tool_calls:
+                    second_response = self.client.chat.completions.create(
+                        model=self.model_name,
+                        messages=messages
+                    )
+                    final_text = second_response.choices[0].message.content
+
+            # --- CASE 2: Groq Written Text Tag Fallback (<function/tool_name>{...}) ---
+            elif response_message.content and "<function/" in response_message.content:
+                print("Detected string-embedded function token. Running regex extraction extraction...")
+                import re
+                
+                # Match things like <function/create_file>{"file_path": ...}
+                pattern = r"<function/(\w+)>(.*?)(?:</function>|$)"
+                match = re.search(pattern, response_message.content, re.DOTALL)
+                
+                if match:
+                    function_name = match.group(1)
+                    raw_args = match.group(2).strip()
+                    function_to_call = FUNCTION_ROUTER.get(function_name)
+                    
+                    if function_to_call:
+                        try:
+                            function_args = json.loads(raw_args)
+                            function_response = function_to_call(**function_args)
+                            
+                            # Ask Groq to give a verbal update back using the text result
+                            messages.append(response_message)
+                            messages.append({
+                                "role": "user",
+                                "content": f"SYSTEM SYSTEM: The tool '{function_name}' executed. Result: {function_response}. Give a natural response to the user."
+                            })
+                            
+                            second_response = self.client.chat.completions.create(
+                                model=self.model_name,
+                                messages=messages
+                            )
+                            final_text = second_response.choices[0].message.content
+                        except Exception as parse_err:
+                            print(f"Failed to execute manual string fallback tool: {parse_err}")
+                            final_text = "I saw the file request but couldn't parse the configurations cleanly."
+                
+                if not final_text:
+                    final_text = response_message.content
+
+            # --- CASE 3: Normal Conversation ---
+            else:
+                final_text = response_message.content
+
+            # Handle speech and memory storage
+            nix_speak(strip_markdown(final_text))
+            
+            self.history.append({"role": "user", "content": user_text})
+            self.history.append({"role": "assistant", "content": final_text})
+
+            if len(self.history) > 2:
+                self.history = self.history[-2:]
+
+            return {"status": "success", "output": final_text}
+
+        except Exception as e:
+            error_msg = str(e)
+            if "tool_use_failed" in error_msg or "400" in error_msg:
+                print("Groq failed tool construction completely. Executing stateless text fallback...")
+                try:
+                    fallback_response = self.client.chat.completions.create(
+                        model=self.model_name,
+                        messages=[
+                            {"role": "system", "content": "Respond to the user directly using pure text only. Do not invoke tools."},
+                            {"role": "user", "content": user_text}
+                        ]
+                    )
+                    final_text = fallback_response.choices[0].message.content
+                    nix_speak(strip_markdown(final_text))
+                    return {"status": "success", "output": final_text}
+                except Exception as inner_e:
+                    error_msg = str(inner_e)
+
+            logger.error(f"Error during Groq run: {error_msg}")
+            nix_speak(strip_markdown("Sorry boss, my logic circuits are a bit fried."))
+            return {"status": "error", "output": error_msg}
+# Instantiate clean shared context token once globally upon runtime load
+groq_backup_engine = PersistentGroqFallback()
+
+def getGroqResponse(user_text):
+    """Wrapper function to preserve backwards compatibility across imports."""
+    return groq_backup_engine.get_response(user_text)

@@ -52,7 +52,7 @@
 
 .my-month-year {
   position: absolute;
-  bottom: -15px;
+  bottom: -25px;
   left: 50%;
   transform: translateX(-50%);
   color: #3dd5e3;
