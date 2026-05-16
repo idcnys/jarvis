@@ -1,4 +1,3 @@
-
 import os
 import time
 from constants.values import API_KEYS_FILE
@@ -7,6 +6,7 @@ class GeminiRotator:
     def __init__(self, file_path=API_KEYS_FILE):
         self.file_path = file_path
         self.keys = self._load_keys()
+        self.key_to_index = {entry["key"]: i for i, entry in enumerate(self.keys)}
         self.current_index = 0
         self.cooldown_period = 65
 
@@ -25,39 +25,38 @@ class GeminiRotator:
         if not self.keys:
             return "no_keys_found"
 
-        start_index = self.current_index
-        now = time.time()
-
-        while True:
+        num_keys = len(self.keys)
+        
+        for _ in range(num_keys):
             current_entry = self.keys[self.current_index]
             
-            if now >= current_entry["blocked_until"]:
-                return current_entry["key"]
+            if time.time() >= current_entry["blocked_until"]:
+                key = current_entry["key"]
+                return key
 
-            self.current_index = (self.current_index + 1) % len(self.keys)
+            self.current_index = (self.current_index + 1) % num_keys
 
-            if self.current_index == start_index:
-                return "wait"
+        return "wait"
 
     def mark_exhausted(self, key):
         """Sets a cooldown for the specific key that hit the rate limit."""
-        for entry in self.keys:
-            if entry["key"] == key:
-                entry["blocked_until"] = time.time() + self.cooldown_period
-                break
-        self.current_index = (self.current_index + 1) % len(self.keys)
+        if key in self.key_to_index:
+            idx = self.key_to_index[key]
+            self.keys[idx]["blocked_until"] = time.time() + self.cooldown_period
+            
+            if self.current_index == idx:
+                self.current_index = (self.current_index + 1) % len(self.keys)
 
     def get_state(self):
         """Returns current API rotation state."""
         now = time.time()
         total_keys = len(self.keys)
         exhausted_count = sum(1 for entry in self.keys if now < entry["blocked_until"])
-        active_key_index = self.current_index
         
         return {
             "total_keys": total_keys,
             "exhausted_count": exhausted_count,
             "available_count": total_keys - exhausted_count,
-            "current_index": active_key_index + 1,  # 1-based for display
+            "current_index": self.current_index + 1,
             "status": "Active" if exhausted_count < total_keys else "All Exhausted"
         }

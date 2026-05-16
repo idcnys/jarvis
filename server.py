@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 
 from helpers.compliments import get_compliment
-from helpers.gemini import getGeminiResponse, rotator
+from helpers.gemini import gemini_session
 from helpers.reset import history_reset
 from helpers.viewer import view_skills
 from helpers.voice import speak as nix_speak, get_speaking_status, wait_for_speech, shutdown_voice
@@ -35,12 +35,24 @@ def home():
         return render_template('mobile.html')
     return render_template('index.html')
 
+# @app.route('/process', methods=['POST'])
+# def process():
+#     data = request.get_json()
+#     user_text = data.get('text_input')
+#     result = getGeminiResponse(user_text)
+#     # result = getGroqResponse(user_text)
+#     return jsonify(result)
+
 @app.route('/process', methods=['POST'])
 def process():
-    data = request.get_json()
-    user_text = data.get('text_input')
-    result = getGeminiResponse(user_text)
-    # result = getGroqResponse(user_text)
+    data = request.get_json() or {}
+    user_text = data.get('text_input', '')
+    
+    if not user_text:
+        return jsonify({"status": "error", "output": "No text input provided"}), 400
+
+    # Sends user parameters straight into our hot persistent runtime class
+    result = gemini_session.send_message(user_text)
     return jsonify(result)
 
 # to get system info
