@@ -61,6 +61,13 @@ Before setting up, ensure you have the following installed on your host machine:
 * Make sure to add your own api keys as well as keydict. run `key_test.py` to get the hidden keycodes and add them in the `user_data/keydict.txt`.
 * if you face any kind of setup issue you can ask me in the [discussion](https://github.com/idcnys/jarvis/discussions) or you can submit [an issure here](https://github.com/idcnys/jarvis/issues) as well.
 
+## Setup using `setup.py` and `setup_api.py`
+* Clone this repository locally using `git clone https://github.com/idcnys/jarvis.git .` command
+* Create a virtual env using `python -m venv [name]` , activate it `env\Scripts\activate.bat` then install the requirements using `pip install -r requirements.txt`
+* Run `python setup.py` it will download the necessary files and create missing files and directories.
+* Run `python setup_api.py` ang give the gemini and groq api keys
+* Run `python server.py` 
+
 ##  After you have done everything your folder should look like this
 
 ```
