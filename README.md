@@ -4,7 +4,8 @@
   <a href="#-features">🚀 Features</a> • 
   <a href="#️-tech-stack">🛠️ Tech Stack</a> • 
   <a href="#-prerequisites">📋 Prerequisites</a>  • 
-  <a href="#-setup">📋 Setup</a>
+  <a href="#-setup">📋 Setup</a>   • 
+    <a href="#architecture">📋 Architecture</a>
 </p>
 
 ### AI Orchestration Layer with Flask Web UI
@@ -123,3 +124,8 @@ workspace/
 ```
 
 This README provides an overview of the folder structure for the project. Each folder and file serves a specific purpose in the application. For further details, refer to the respective files and directories.
+
+# 📋 Architecture
+
+<img width="1333" height="711" alt="image" src="https://github.com/user-attachments/assets/dcc83476-48cb-4e23-8ede-61d9915a71d6" />
+
