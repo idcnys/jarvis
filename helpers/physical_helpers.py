@@ -449,12 +449,13 @@ def list_files(dir_path: str, recursive: bool = False) -> str:
         return '\n'.join(items) if items else "(empty directory)"
     except Exception as e:
         return f"✗ Error listing directory: {str(e)}"
-
+ 
 # Special Lenovo PC Keys (play/pause, mute, lock screen, etc.)
 
 def _press_keyboard_key(key_name: str) -> str:
     """
     Presses a key using the keyboard library (for special keys).
+    Supports single keys and multi-key combinations separated by '+'.
     
     Args:
         key_name: Key name to press (e.g., 'play-pause', 'mute', 'lock')
@@ -475,14 +476,19 @@ def _press_keyboard_key(key_name: str) -> str:
         if not keyboard_key:
             return f"✗ Error: No keyboard mapping found for '{key_name}'"
         
-        keyboard.press(keyboard_key)
+        keys_to_press = [k.strip() for k in keyboard_key.split('+')]
+        
+        for key in keys_to_press:
+            keyboard.press(key)
+            
         time.sleep(0.1)
-        keyboard.release(keyboard_key)
+        
+        for key in reversed(keys_to_press):
+            keyboard.release(key)
         
         return f"✓ Key pressed: {key_name} (keyboard_name: {keyboard_key})"
     except Exception as e:
         return f"✗ Error pressing key: {str(e)}"
-
 def play_pause_music() -> str:
     """
     Plays or pauses current music/media.

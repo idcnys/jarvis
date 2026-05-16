@@ -3,9 +3,9 @@
     "keyboard_name": "G",
     "scan_code": 34
   },
-  "prtsc": {
-    "keyboard_name": "left windows",
-    "scan_code": -91
+ "prtsc": {
+    "keyboard_name": "left windows+left shift+s",
+    "scan_code": [-91, -160, -83]
   },
   "mute": {
     "keyboard_name": "D",
