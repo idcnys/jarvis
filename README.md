@@ -5,7 +5,7 @@
   <a href="#️-tech-stack">🛠️ Tech Stack</a> • 
   <a href="#-prerequisites">📋 Prerequisites</a>  • 
   <a href="#-setup">📋 Setup</a>   • 
-    <a href="#architecture">📋 Architecture</a>
+    <a href="#-architecture">📋 Architecture</a>
 </p>
 
 ### AI Orchestration Layer with Flask Web UI
