@@ -212,19 +212,23 @@ body {
   top: 20px;
   left: 20px;
   color: #3dd5e3;
-  font-size: 14px;
+  font-size: 15px;
   width: 500px;
   z-index: 10;
-  overflow: hidden;
   height: 300px;
-  border:1px solid rgba(61, 213, 227, 0.4);
-  padding:10px;
-  border-radius:8px;
+  border: 1px solid rgba(61, 213, 227, 0.4);
+  padding: 10px;
+  border-radius: 8px;
   overflow-y: scroll;
+
+  background-color: rgba(10, 25, 30, 0.5);
+  backdrop-filter: blur(10px);              
+  -webkit-backdrop-filter: blur(10px);     
 }
 #responseField {
-  font-size: 13px;
-  font-style: italic;
+  margin-top:10px;
+  font-size: 15px;
+  /* font-style: italic; */
 }
 .infos {
   color: #3dd5e3;

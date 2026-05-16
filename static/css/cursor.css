@@ -1,0 +1,57 @@
+/* .custom-cursor {
+    width: 8px;
+    height: 8px;
+    background: #ffffff;
+    border-radius: 50%;
+    position: fixed;
+    transform: translate(-50%, -50%);
+    pointer-events: none; 
+    z-index: 10000;
+    box-shadow: 0 0 15px 3px #06b6d4;
+    transition: transform 0.1s ease-out;
+} */
+
+.shockwave {
+    position: absolute;
+    border: 2px solid #06b6d4;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 9999;
+    box-shadow: 0 0 20px #06b6d4, inset 0 0 10px #06b6d4;
+    animation: shockwave-animate 0.5s cubic-bezier(0.1, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes shockwave-animate {
+    0% {
+        width: 0px;
+        height: 0px;
+        opacity: 1;
+        border-width: 4px;
+    }
+    100% {
+        width: 200px;
+        height: 200px;
+        opacity: 0;
+        border-width: 1px;
+    }
+}
+
+.click-particle {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    animation: particle-fade 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes particle-fade {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translate(calc(-50% + var(--move-x)), calc(-50% + var(--move-y))) scale(0);
+    }
+}

@@ -32,6 +32,11 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='css/minichat.css') }}"
     />
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/cursor.css') }}"
+    />
   </head>
 
   <body>
@@ -123,7 +128,7 @@
       <div class="spinner-semi" style="--start: 180deg"></div>
       <span class="spinner-text">0 mins</span>
     </div>
-
+    <div class="custom-cursor" id="cursor"></div>
 
   
     <script src="{{ url_for('static', filename='js/client.js') }}"></script>
@@ -132,5 +137,6 @@
 
     <script src="{{ url_for('static', filename='js/dialclock.js') }}"></script>
 
+    <script src="{{ url_for('static', filename='js/cursor.js') }}"></script>
 </body>
 </html>

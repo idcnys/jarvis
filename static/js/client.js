@@ -89,8 +89,15 @@ async function sendData() {
   addValue(msgObj);
   // Start Animation
   document.querySelector(".core").classList.add("thinking");
+  const statusElement = document.getElementById("speakingStatus");
+
+  statusElement.classList.add("active");
+  statusElement.querySelector(".status-text").textContent = "Thinking...";
+
+
   responseField.innerText = "Processing command...";
   commandInput.value = "";
+
 
   try {
     const response = await fetch("/process", {
@@ -118,6 +125,10 @@ async function sendData() {
   } finally {
     // Stop Animation
     document.querySelector(".core").classList.remove("thinking");
+
+      statusElement.classList.remove("active");
+      statusElement.querySelector(".status-text").textContent = "Idle";
+      
   }
 }
 
@@ -219,20 +230,20 @@ async function updateDashboard() {
     }
     
     // Update speaking status and HUD animation
-    const statusElement = document.getElementById("speakingStatus");
+    // const statusElement = document.getElementById("speakingStatus");
     const hudElement = document.querySelector(".hud");
     const isActive = data.speaking || data.queue_size > 0;
+
+
+      // if (isActive) {
+      //   statusElement.classList.add("active");
+      //   statusElement.querySelector(".status-text").textContent = 
+      //     data.speaking ? "Speaking..." : `Queued (${data.queue_size})`;
+      // } else {
+      //   statusElement.classList.remove("active");
+      //   statusElement.querySelector(".status-text").textContent = "Idle";
+      // }
     
-    if (statusElement) {
-      if (isActive) {
-        statusElement.classList.add("active");
-        statusElement.querySelector(".status-text").textContent = 
-          data.speaking ? "Speaking..." : `Queued (${data.queue_size})`;
-      } else {
-        statusElement.classList.remove("active");
-        statusElement.querySelector(".status-text").textContent = "Idle";
-      }
-    }
     
     // Toggle HUD animation based on speaking state
     if (hudElement) {
