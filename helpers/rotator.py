@@ -1,9 +1,10 @@
 
 import os
 import time
+from constants import API_KEYS_FILE
 
 class GeminiRotator:
-    def __init__(self, file_path="user_data/APIs.txt"):
+    def __init__(self, file_path=API_KEYS_FILE):
         self.file_path = file_path
         self.keys = self._load_keys()
         self.current_index = 0

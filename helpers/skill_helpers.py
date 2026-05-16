@@ -2,8 +2,7 @@ import json
 import os
 
 from helpers.physical_helpers import close_app, enter_text, music_control, open_app, press_key, run_terminal_command
-
-SKILLS_FILE = "memory/skills.json"
+from constants import SKILLS_FILE
 
 def save_skill(skill_name: str, commands: list[dict]):
     """

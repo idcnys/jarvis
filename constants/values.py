@@ -13,6 +13,7 @@ VOICE_LANG = "en-us"
 #MEMORY FILES
 SYSTEM_FILE = "user_data/instructions.txt"
 HISTORY_FILE = "user_data/history.json"
+SKILLS_FILE = "memory/skills.json"
 #API_KEYS
 API_KEYS_FILE = "user_data/APIs.txt"
 GROQ_CONFIG_FILE = "user_data/groq_config.txt"
