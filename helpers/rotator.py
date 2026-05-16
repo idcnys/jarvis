@@ -1,7 +1,7 @@
 
 import os
 import time
-from constants import API_KEYS_FILE
+from constants.values import API_KEYS_FILE
 
 class GeminiRotator:
     def __init__(self, file_path=API_KEYS_FILE):

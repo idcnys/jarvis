@@ -312,12 +312,27 @@ pre {
   max-width: 300px;
   z-index: 10;
 }
-.settings-btn {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  padding: 5px;
-}
-.settings-btn a {
-  text-decoration: none;
-}
+ .settings-btn {
+        padding: 10px 20px;
+        background: transparent;
+        border: 2px solid #5b9fa3;
+        color: #5b9fa3;
+        border-radius: 8px;
+        cursor: pointer;
+        font-family: "Exo", sans-serif;
+        font-size: 14px;
+        transition: 0.3s;
+        position: fixed;
+        bottom:10px;
+        right:10px;
+      }
+
+      .settings-btn:hover {
+        background: rgba(91, 159, 163, 0.1);
+        box-shadow: 0 0 15px rgba(91, 159, 163, 0.3);
+      }
+
+      .settings-btn a {
+        text-decoration: none;
+        color: #5b9fa3;
+      }
